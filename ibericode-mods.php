@@ -19,3 +19,4 @@ require __DIR__ . '/includes/set-cache-headers.php';
 require __DIR__ . '/includes/protect-wp-login.php';
 require __DIR__ . '/includes/smtp-mailer.php';
 require __DIR__ . '/includes/stop-comment-spam.php';
+require __DIR__ . '/includes/disable-plugin-and-theme-updates.php';
