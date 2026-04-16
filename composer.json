@@ -1,0 +1,7 @@
+{
+  "name": "ibericode/ibericode-mods",
+  "type": "wordpress-plugin",
+  "require": {
+    "composer/installers": "^2.0"
+  }
+}
