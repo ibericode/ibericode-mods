@@ -1,13 +1,5 @@
 <?php
 
-/*
-Plugin Name: Restrict wp-login.php
-Author: Danny van Kooten
-Version: 1.0
-Author URI: https://dannyvankooten.com/
-Private: True
-*/
-
 add_action('login_footer', function () {
     ?><script>
         window.setTimeout(() => {

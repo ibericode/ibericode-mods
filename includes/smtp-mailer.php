@@ -1,14 +1,5 @@
 <?php
 
-/*
-Plugin Name: SMTP Mailer
-Description: Configures wp_mail to use SMTP for sending your email.
-Author: Danny van Kooten
-Version: 1.1.2
-Author URI: https://dannyvankooten.com/
-Private: True
-*/
-
 use PHPMailer\PHPMailer\PHPMailer;
 
 add_action('phpmailer_init', function (PHPMailer $phpmailer) {

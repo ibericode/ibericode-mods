@@ -1,13 +1,5 @@
 <?php
 
-/*
-Plugin Name: Purge Bunny CDN cache
-Author: Danny van Kooten
-Version: 1.0
-Author URI: https://dannyvankooten.com/
-Private: True
-*/
-
 namespace ibericode;
 
 function purge_cache_for_url(string $url)

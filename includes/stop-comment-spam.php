@@ -1,14 +1,5 @@
 <?php
 
-/*
-Plugin Name: Stop Comment Spam
-Description: Adds some anti-spam measures to the comment form.
-Author: Danny van Kooten
-Version: 1.0.0
-Author URI: https://dannyvankooten.com/
-Private: True
-*/
-
 /**
  * @param mixed $approved One of 1, 0, 'spam', 'trash', WP_Error
  * @param array $commentdata {

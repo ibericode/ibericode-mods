@@ -1,14 +1,5 @@
 <?php
 
-/*
-Plugin Name: Disable REST API
-Description: Disables users endpoint for non-logged in users
-Author: Danny van Kooten
-Version: 1.0
-Author URI: https://dannyvankooten.com/
-Private: True
-*/
-
 // Do not allow access to WordPress REST API for non-logged-in users
 add_filter('rest_authentication_errors', function ($result) {
     if (is_wp_error($result)) {
