@@ -1,14 +1,41 @@
 <?php
 
 add_action('login_footer', function () {
-    ?><script>
-        window.setTimeout(() => {
-            let input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'login-ok';
-            input.value = '1';
-            document.querySelector('#loginform').prepend(input);
-        }, 3000);
+    ?><style>
+        #wp-submit {
+            background-color: #2271b1 !important;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.18)) !important;
+            background-repeat: no-repeat !important;
+            background-size: 0% 100% !important;
+            border-color: #2271b1 !important;
+            color: #fff !important;
+        }
+
+        #wp-submit.waiting-animate {
+            background-size: 100% 100% !important;
+            transition: background-size 2.5s linear !important;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let button = document.querySelector('#wp-submit');
+            if (!button) {
+                return;
+            }
+            requestAnimationFrame(() => {
+                button.classList.add('waiting-animate');
+            });
+
+            window.setTimeout(() => {
+                let input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'login-ok';
+                input.value = '1';
+                document.querySelector('#loginform').prepend(input);
+                button.classList.remove('waiting-animate');
+            }, 2500);
+        })
+        
     </script><?php
 });
 
