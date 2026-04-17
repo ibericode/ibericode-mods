@@ -4,10 +4,9 @@ ibericode mods
 A collection of lightweight WordPress plugins that we commonly use on our sites.
 
 - Allow SVG uploads
-- Disable installing or updating plugins through the WP Admin interface.
 - Disable the `/wp-json/wp/v2/users` REST API endpoint.
 - Adds `Robots: noindex` HTTP header to all non-singular pages (except the front page).
-- Protect WP Login through a 2 second timeout and `Origin` check.
+- Reject all WP Login attempts if submitted within 2.5 seconds of page load.
 - Purge Bunny CDN Cache on `save_post`
 - Set HTTP `Cache-Control` header on all safe requests for logged-out users.
 - Configure `wp_mail()` to use SMTP.
@@ -17,7 +16,9 @@ Some of these are simple no-ops if the relevant PHP constants are not set.
 
 ## Install
 
-We install this plugin on all our sites through Composer, but you can also just download the ZIP and drop it in `wp-content/plugins`.
+Download the ZIP and drop it in `wp-content/plugins`.
+
+Alternatively, install through Composer:
 
 ```json
 {

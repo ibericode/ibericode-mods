@@ -13,6 +13,10 @@ License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
+if (PHP_VERSION_ID < 80300) {
+    return;
+}
+
 require __DIR__ . '/includes/allow-svg-uploads.php';
 require __DIR__ . '/includes/noindex-archive-pages.php';
 require __DIR__ . '/includes/disable-rest-api-users-endpoint.php';
@@ -21,4 +25,3 @@ require __DIR__ . '/includes/set-cache-headers.php';
 require __DIR__ . '/includes/protect-wp-login.php';
 require __DIR__ . '/includes/smtp-mailer.php';
 require __DIR__ . '/includes/stop-comment-spam.php';
-require __DIR__ . '/includes/disable-plugin-and-theme-updates.php';
