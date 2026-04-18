@@ -1,7 +1,7 @@
 <?php
 
 add_filter('wp_headers', function ($headers) {
-    if (WP_DEBUG || isset($headers['Cache-Control'])) {
+    if (WP_DEBUG || isset($headers['Cache-Control']) || is_admin()) {
         return $headers;
     }
 
