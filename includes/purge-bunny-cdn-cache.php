@@ -4,34 +4,42 @@ namespace ibericode;
 
 function purge_cache_for_url(string $url)
 {
-    $url = urlencode($url);
-    $curl = curl_init();
-    curl_setopt_array($curl, [
-        CURLOPT_URL => "https://api.bunny.net/purge?url=$url",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST => true,
-        CURLOPT_MAXREDIRS => 5,
-        CURLOPT_TIMEOUT => 10,
-        CURLOPT_HTTPHEADER => [
-            "AccessKey: " . constant('BUNNY_API_KEY'),
+    $request_url = 'https://api.bunny.net/purge?url=' . urlencode($url);
+
+    $response = wp_remote_post($request_url, [
+        'timeout' => 10,
+        'redirection' => 5,
+        'headers' => [
+            'AccessKey' => constant('BUNNY_API_KEY'),
         ],
     ]);
 
-    curl_exec($curl);
-    $error = curl_error($curl);
-    if ($error) {
-        error_log("Error purging Bunny CDN cache: $error");
+    if (is_wp_error($response)) {
+        error_log('Error purging Bunny CDN cache: ' . $response->get_error_message());
+        return;
+    }
+
+    $status_code = wp_remote_retrieve_response_code($response);
+    if ($status_code < 200 || $status_code >= 300) {
+        error_log('Error purging Bunny CDN cache: HTTP ' . $status_code);
     }
 }
 
 add_action('save_post', function ($post_id) {
-    // Check if it's not an autosave
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+    // No-op if BUNNY_API_KEY constant is not set
+    if (! defined('BUNNY_API_KEY')) {
         return;
     }
 
-    // No-op if BUNNY_API_KEY constant is not set
-    if (! defined('BUNNY_API_KEY')) {
+    // Check if it's not an autosave
+    if ((defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || wp_is_post_autosave($post_id) || wp_is_post_revision($post_id)) {
+        return;
+    }
+
+
+    $post_type = get_post_type($post_id);
+    $post_type_object = $post_type ? get_post_type_object($post_type) : null;
+    if (! $post_type_object || ! $post_type_object->public) {
         return;
     }
 
