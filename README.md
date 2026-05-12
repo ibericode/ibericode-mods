@@ -16,35 +16,11 @@ Some of these are simple no-ops if the relevant PHP constants are not set.
 
 ## Install
 
-Download the ZIP and drop it in `wp-content/plugins`.
+Download the plugin package from the [latest release here on GitHub](https://github.com/ibericode/ibericode-mods/releases/latest).
 
-Alternatively, install through Composer:
+Go to **Plugins > Add Plugin > Upload Plugin** to install the plugin. 
 
-```json
-{
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/ibericode/ibericode-mods"
-        }
-    ],
-    "require": {
-        "composer/installers": "^2.2",
-        "ibericode/ibericode-mods": "*@dev",
-    },
-    "config": {
-        "allow-plugins": {
-            "composer/installers": true
-        }
-    },
-    "extra": {
-        "installer-paths": {
-            "wp-content/plugins/{$name}/": ["type:wordpress-plugin"]
-        }
-    }
-}
-
-```
+Alternatively, download or clone this repository and place in `/wp-content/plugins/`.
 
 ## License
 
