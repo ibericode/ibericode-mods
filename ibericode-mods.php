@@ -6,7 +6,6 @@ Description: a collection of commonly needed WordPresss modifications or enhance
 Author: Danny van Kooten
 Version: 1.0
 Author URI: https://www.dannyvankooten.com/
-Private: True
 Requires at least: 6.5
 Requires PHP: 8.3 
 License: GPL v2 or later
