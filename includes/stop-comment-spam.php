@@ -1,5 +1,8 @@
 <?php
 
+// Prevent direct file access
+defined('ABSPATH') or exit;
+
 /**
  * @param mixed $approved One of 1, 0, 'spam', 'trash', WP_Error
  * @param array $commentdata {

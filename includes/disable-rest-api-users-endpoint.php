@@ -1,5 +1,8 @@
 <?php
 
+// Prevent direct file access
+defined('ABSPATH') or exit;
+
 // Do not allow access to WordPress REST API for non-logged-in users
 add_filter('rest_authentication_errors', function ($result) {
     if (is_wp_error($result)) {

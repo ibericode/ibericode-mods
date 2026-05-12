@@ -2,6 +2,9 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 
+// Prevent direct file access
+defined('ABSPATH') or exit;
+
 add_action('phpmailer_init', function (PHPMailer $phpmailer) {
     // make sure all configuration constants are given
     if (! defined('SMTP_HOST') || ! defined('SMTP_USER')) {

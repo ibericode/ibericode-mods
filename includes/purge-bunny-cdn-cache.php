@@ -2,6 +2,9 @@
 
 namespace ibericode;
 
+// Prevent direct file access
+defined('ABSPATH') or exit;
+
 function purge_cache_for_url(string $url)
 {
     $request_url = 'https://api.bunny.net/purge?url=' . urlencode($url);

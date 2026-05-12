@@ -1,5 +1,8 @@
 <?php
 
+// Prevent direct file access
+defined('ABSPATH') or exit;
+
 add_action('login_footer', function () {
     ?><style>
         #wp-submit {
