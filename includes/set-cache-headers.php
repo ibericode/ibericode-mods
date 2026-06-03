@@ -14,6 +14,8 @@ add_filter('wp_headers', function ($headers) {
         return $headers;
     }
 
+    $url = trim($_SERVER['REQUEST_URI'] ?? '');
+
     // never set cache headers for logged-in users
     if (is_user_logged_in()) {
         $headers['Cache-Control'] = 'must-revalidate, max-age=0, private';
@@ -23,7 +25,7 @@ add_filter('wp_headers', function ($headers) {
         $headers['Cache-Control'] = 'public, s-max-age=3600, max-age=300';
 
     // cache feeds and XML files (ie sitemap) for 1 day (shared) or 1 hour (browser)
-    } elseif (is_feed() || str_ends_with($_SERVER['REQUEST_URI'] ?? '', '.xml')) {
+    } elseif (is_feed() || str_ends_with($url, '.xml')) {
         $headers['Cache-Control'] = 'public, s-max-age=86400, max-age=3600';
 
     // cache all other pages for 30 days (shared) or 1 hour (browser)

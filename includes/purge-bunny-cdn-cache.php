@@ -7,7 +7,7 @@ defined('ABSPATH') or exit;
 
 function purge_cache_for_url(string $url)
 {
-    $request_url = 'https://api.bunny.net/purge?url=' . urlencode($url);
+    $request_url = 'https://api.bunny.net/purge?url=' . urlencode($url) . '&async=true';
 
     $response = wp_remote_post($request_url, [
         'timeout' => 10,
@@ -52,5 +52,4 @@ add_action('save_post', function ($post_id) {
     }
 
     purge_cache_for_url($permalink);
-    purge_cache_for_url(home_url('/sitemap.xml'));
 });
