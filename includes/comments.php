@@ -27,7 +27,7 @@ defined('ABSPATH') or exit;
  * }
  */
 
-add_filter('pre_comment_approved', function ($approved, $commentdata) {
+add_filter('pre_comment_approved', static function ($approved, array $commentdata) {
     if (is_wp_error($approved) || $approved === 'spam' || $approved === 'trash') {
         return $approved;
     }
