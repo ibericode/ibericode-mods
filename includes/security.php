@@ -26,8 +26,8 @@ add_filter('rest_authentication_errors', static function ($result) {
     return $result;
 });
 
-// Prevent user enumeration via ?author=1 
-add_action('init', static function() {
+// Prevent user enumeration via ?author=1
+add_action('init', static function () {
     if (isset($_GET['author'])) {
         unset($_GET['author']);
         unset($_REQUEST['author']);

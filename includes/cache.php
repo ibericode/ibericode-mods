@@ -4,7 +4,6 @@ namespace ibericode;
 
 use WP_Post;
 
-
 add_filter('wp_headers', static function (array $headers) {
     if (WP_DEBUG || isset($headers['Cache-Control']) || is_admin()) {
         return $headers;
