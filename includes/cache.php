@@ -10,12 +10,12 @@ add_filter('wp_headers', static function (array $headers) {
     }
 
     // only set cache-headers on safe HTTP methods
-    $method = $_SERVER['REQUEST_METHOD'] ?? 'POST';
+    $method = $_SERVER['REQUEST_METHOD'] ?? 'POST'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
     if ($method !== 'GET' && $method !== 'HEAD') {
         return $headers;
     }
 
-    $url = trim($_SERVER['REQUEST_URI'] ?? '');
+    $url = trim($_SERVER['REQUEST_URI'] ?? ''); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
     // never set cache headers for logged-in users
     if (is_user_logged_in()) {
