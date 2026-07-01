@@ -98,7 +98,7 @@ add_action('draft_to_publish', static function (WP_Post $post) {
 
     purge_cache_for_url($permalink);
     purge_cache_for_url(get_home_url());
-    
+
     $archive_url = get_post_type_archive_link($post->post_type);
     if ($archive_url !== false) {
         purge_cache_for_url($archive_url);
