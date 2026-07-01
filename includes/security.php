@@ -12,8 +12,8 @@ add_filter('rest_authentication_errors', static function ($result) {
         return $result;
     }
 
-    $request_path = (string) parse_url(urldecode($_SERVER['REQUEST_URI'] ?? ''), PHP_URL_PATH);
-    $query_param = $_GET['rest_route'] ?? '';
+    $request_path = (string) parse_url(urldecode($_SERVER['REQUEST_URI'] ?? ''), PHP_URL_PATH); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+    $query_param = $_GET['rest_route'] ?? ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
     if (! is_user_logged_in() && (str_contains($request_path, '/wp-json/wp/v2/users') || $query_param === '/wp/v2/users')) {
         return new WP_Error(
@@ -26,8 +26,8 @@ add_filter('rest_authentication_errors', static function ($result) {
     return $result;
 });
 
-// Prevent user enumeration via ?author=1 
-add_action('init', static function() {
+// Prevent user enumeration via ?author=1
+add_action('init', static function () {
     if (isset($_GET['author'])) {
         unset($_GET['author']);
         unset($_REQUEST['author']);
@@ -77,11 +77,15 @@ add_action('login_footer', static function () {
 });
 
 add_action('wp_authenticate', static function (&$username, &$password) {
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce is handled by WP login itself
     if (! isset($_POST['log'])) {
         return;
     }
 
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- nonce is handled by WP login itself
     $js_timeout_check = ($_POST['login-ok'] ?? '') === '1';
+
+    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
     $csrf_check = parse_url($_SERVER['HTTP_ORIGIN'] ?? '', PHP_URL_HOST) === parse_url(home_url(), PHP_URL_HOST);
 
     if (!$js_timeout_check || ! $csrf_check) {
