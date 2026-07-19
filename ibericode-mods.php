@@ -21,7 +21,7 @@ if (! defined('ABSPATH')) {
     return;
 }
 
-$mods = apply_filters('ibericode_mods', ['cache', 'comments', 'email', 'misc', 'security', 'seo', 'uploads']);
+$mods = apply_filters('ibericode_mods', ['cache', 'comments', 'email', 'misc', 'security', 'seo']);
 foreach ($mods as $f) {
     require __DIR__ . "/includes/{$f}.php";
 }
