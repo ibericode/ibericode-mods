@@ -34,6 +34,20 @@ add_action('init', static function () {
     }
 }, 1);
 
+
+// Explicitly allow automatic updater, even if DISALLOW_FILE_MODS is enabled
+add_filter(
+    'file_mod_allowed',
+    static function ($allow, $context) {
+        if ('automatic_updater' === $context) {
+            return true;
+        }
+        return $allow;
+    },
+    10,
+    2
+);
+
 // Reject all login requests submitted within 2 seconds of loading the page
 add_action('login_footer', static function () {
     ?><style>
