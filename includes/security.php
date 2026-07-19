@@ -12,7 +12,7 @@ add_filter('rest_authentication_errors', static function ($result) {
         return $result;
     }
 
-    $request_path = (string) parse_url(urldecode($_SERVER['REQUEST_URI'] ?? ''), PHP_URL_PATH);
+    $request_path = urldecode((string) ($_SERVER['REQUEST_URI'] ?? ''));
     $query_param = $_GET['rest_route'] ?? '';
 
     if (! is_user_logged_in() && (str_contains($request_path, '/wp-json/wp/v2/users') || $query_param === '/wp/v2/users')) {
