@@ -2,6 +2,12 @@
 
 defined('ABSPATH') or exit;
 
+/**
+ * Restricts the WordPress REST API to logged-in users: unauthenticated requests get a 401,
+ * and REST discovery links (RSD, `<link rel="https://api.w.org/">`, the `Link` header) are
+ * no longer advertised to logged-out visitors. No configuration required.
+ */
+
 // Do not allow access to WordPress REST API for logged-out users
 add_filter('rest_authentication_errors', static function ($result) {
     if (is_wp_error($result)) {

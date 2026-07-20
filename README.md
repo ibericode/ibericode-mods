@@ -1,18 +1,33 @@
 ibericode mods
 ==============
 
-A collection of lightweight WordPress plugins that we commonly use on our sites.
+A collection of lightweight WordPress modifications that we commonly use on our sites.
 
-- Reject all WP Login attempts if submitted within 2.5 seconds of page load.
-- Configure `wp_mail()` to use SMTP through a few PHP constants.
-- Allow SVG uploads for administrators.
-- Disable the `/wp-json/wp/v2/users` REST API endpoint.
-- Set HTTP `Cache-Control` header on all safe requests for logged-out users.
-- Adds `Robots: noindex` HTTP header to all non-singular pages (except the front page).
-- Purge Bunny CDN Cache on `save_post`
-- Automatically mark comments as spam through a collection of empirically discovered checks.
+Each modification lives in its own file under [`includes/`](includes/), documented with a
+docblock at the top of the file describing what it does and how to configure it (if at all).
 
-Some of these are simple no-ops if the relevant PHP constants are not set.
+- [`includes/bunny-cdn.php`](includes/bunny-cdn.php) — Purge Bunny CDN cache when a post is saved or published.
+- [`includes/cache-control.php`](includes/cache-control.php) — Set an HTTP `Cache-Control` header on safe requests for logged-out visitors.
+- [`includes/comment-spam.php`](includes/comment-spam.php) — Mark comments as spam through a collection of empirically discovered heuristics.
+- [`includes/login-timing.php`](includes/login-timing.php) — Reject login attempts submitted within 2.5 seconds of the login page loading.
+- [`includes/noindex-archives.php`](includes/noindex-archives.php) — Add `Robots: noindex` to all non-singular pages except the front page.
+- [`includes/non-production-robots.php`](includes/non-production-robots.php) — Block crawling and discourage indexing on any non-production environment.
+- [`includes/rest-api.php`](includes/rest-api.php) — Restrict the WordPress REST API to logged-in users.
+- [`includes/smtp.php`](includes/smtp.php) — Send `wp_mail()` through SMTP.
+- [`includes/update-notifications.php`](includes/update-notifications.php) — Keep update notifications and automatic updates working when `DISALLOW_FILE_MODS` is set.
+- [`includes/user-enumeration.php`](includes/user-enumeration.php) — Prevent user enumeration via `?author=1`.
+- [`includes/xmlrpc.php`](includes/xmlrpc.php) — Disable XML-RPC.
+- [`includes/yoast-debug-markers.php`](includes/yoast-debug-markers.php) — Remove Yoast SEO's HTML debug comments.
+
+Every modification is always active except `bunny-cdn.php` and `smtp.php`, which are no-ops
+until their required PHP constants are defined in `wp-config.php` (see the docblock in each
+file). You can also disable individual modifications with the `ibericode_mods` filter:
+
+```php
+add_filter( 'ibericode_mods', function ( $mods ) {
+    return array_diff( $mods, [ 'xmlrpc' ] );
+} );
+```
 
 ## Install
 
@@ -21,31 +36,6 @@ Download the plugin package from the [latest release here on GitHub](https://git
 Go to **Plugins > Add Plugin > Upload Plugin** to install the plugin. 
 
 Alternatively, download or clone this repository and place in `/wp-content/plugins/`.
-
-
-## Configuring
-
-### Email through SMTP
-
-To configure WordPress to send emails via SMTP instead of the default `mail()` function, define the following constants in your `wp-config.php` file:
-
-```php
-define( 'SMTP_HOST', 'smtp.example.com' );
-define( 'SMTP_USER', 'youremail@example.com' );
-define( 'SMTP_PASSWORD', 'your_password' ); // Optional
-define( 'SMTP_PORT', 587 ); // Optional
-define( 'SMTP_ENCRYPTION', 'tls' ); // Optional, defaults to 'tls' (PHPMailer::ENCRYPTION_STARTTLS)
-```
-
-The plugin will automatically use `SMTP_USER` as the default "From" email address.
-
-### Bunny CDN Purging
-
-To automatically purge the Bunny CDN cache for a post's URL (and the sitemap) when it is saved or updated, define your Bunny API key in your `wp-config.php` file:
-
-```php
-define( 'BUNNY_API_KEY', 'your-bunny-cdn-api-key' );
-```
 
 ## License
 

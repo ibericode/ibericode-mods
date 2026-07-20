@@ -1,42 +1,17 @@
 <?php
 
+/**
+ * Purges the Bunny CDN cache for a post's URL (and the home page / archive, where relevant)
+ * whenever the post is saved or a draft is published.
+ *
+ * No-op unless the `BUNNY_API_KEY` constant is defined in wp-config.php:
+ *
+ *     define( 'BUNNY_API_KEY', 'your-bunny-cdn-api-key' );
+ */
+
 namespace ibericode;
 
 use WP_Post;
-
-add_filter('wp_headers', static function (array $headers) {
-    if (WP_DEBUG || isset($headers['Cache-Control']) || is_admin()) {
-        return $headers;
-    }
-
-    // only set cache-headers on safe HTTP methods
-    $method = $_SERVER['REQUEST_METHOD'] ?? 'POST'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-    if ($method !== 'GET' && $method !== 'HEAD') {
-        return $headers;
-    }
-
-    $url = trim($_SERVER['REQUEST_URI'] ?? ''); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-
-    // never set cache headers for logged-in users
-    if (is_user_logged_in()) {
-        $headers['Cache-Control'] = 'must-revalidate, max-age=0, private';
-
-        // cache 404 pages for 1 hour (shared) or 5 minutes (browser)
-    } elseif (is_404()) {
-        $headers['Cache-Control'] = 'public, s-max-age=3600, max-age=300';
-
-        // cache feeds and XML files (ie sitemap) for 1 day (shared) or 1 hour (browser)
-    } elseif (is_feed() || str_ends_with($url, '.xml')) {
-        $headers['Cache-Control'] = 'public, s-max-age=86400, max-age=3600';
-
-        // cache all other pages for 30 days (shared) or 1 hour (browser)
-    } else {
-        $headers['Cache-Control'] = 'public, s-max-age=2592000, max-age=3600';
-    }
-
-    return $headers;
-});
-
 
 function purge_cache_for_url(string $url)
 {
