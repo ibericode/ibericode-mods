@@ -21,7 +21,19 @@ if (! defined('ABSPATH')) {
     return;
 }
 
-$mods = apply_filters('ibericode_mods', ['cache', 'comments', 'email', 'misc', 'rest', 'security', 'seo', 'update-notifications']);
+$mods = apply_filters('ibericode_mods', [
+    'bunny-cdn',
+    'cache-control',
+    'comment-spam',
+    'disallow-installing-plugins',
+    'login-timing',
+    'noindex-archives',
+    'rest-api',
+    'smtp',
+    'user-enumeration',
+    'xmlrpc',
+    'yoast-debug-markers',
+]);
 foreach ($mods as $f) {
     require __DIR__ . "/includes/{$f}.php";
 }

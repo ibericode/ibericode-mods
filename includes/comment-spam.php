@@ -4,6 +4,11 @@
 defined('ABSPATH') or exit;
 
 /**
+ * Automatically marks comments as spam using a collection of empirically discovered heuristics
+ * (missing user agent, missing author name, free-mail address paired with a URL, Cyrillic
+ * characters, link-less/dot-less author URLs, digit-only author/content, "buy" + a hyperlink,
+ * common spam-bot opening phrases, etc). No configuration required.
+ *
  * @param mixed $approved One of 1, 0, 'spam', 'trash', WP_Error
  * @param array $commentdata {
  *     Comment data.

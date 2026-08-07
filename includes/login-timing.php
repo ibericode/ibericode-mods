@@ -3,26 +3,13 @@
 // Prevent direct file access
 defined('ABSPATH') or exit;
 
-// Disable XMLRPC
-add_filter('xmlrpc_enabled', '__return_false');
-
-// Prevent user enumeration via ?author=1
-add_action('init', static function () {
-    if (isset($_GET['author'])) {
-        unset($_GET['author']);
-        unset($_REQUEST['author']);
-    }
-}, 1);
-
-// Explicitly allow automatic updater, even if DISALLOW_FILE_MODS is enabled
-add_filter('file_mod_allowed', static function ($allow, $context) {
-    if ('automatic_updater' === $context) {
-        return true;
-    }
-    return $allow;
-}, 10, 2);
-
-// Reject all login requests submitted within 2 seconds of loading the page
+/**
+ * Rejects login attempts submitted within 2.5 seconds of the login page loading, on the
+ * assumption that a human can't fill in and submit the form that fast. The login button is
+ * disabled and shown as "filling up" via CSS/JS for the first 2.5 seconds; on submit, a
+ * `wp_authenticate` check confirms the timeout actually elapsed (`login-ok` field) and that
+ * the request's Origin matches the site (basic CSRF check). No configuration required.
+ */
 add_action('login_footer', static function () {
     ?><style>
         #wp-submit {
@@ -60,7 +47,7 @@ add_action('login_footer', static function () {
                 button.disabled = false;
             }, 2500);
         })
-        
+
     </script><?php
 });
 

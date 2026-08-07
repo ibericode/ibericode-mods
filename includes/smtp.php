@@ -7,6 +7,18 @@ use PHPMailer\PHPMailer\PHPMailer;
 // Prevent direct file access
 defined('ABSPATH') or exit;
 
+/**
+ * Configures `wp_mail()` to send through SMTP instead of PHP's `mail()`, and defaults the
+ * "From" address to `SMTP_USER`.
+ *
+ * No-op unless `SMTP_HOST` and `SMTP_USER` are both defined in wp-config.php:
+ *
+ *     define( 'SMTP_HOST', 'smtp.example.com' );
+ *     define( 'SMTP_USER', 'youremail@example.com' );
+ *     define( 'SMTP_PASSWORD', 'your_password' ); // Optional
+ *     define( 'SMTP_PORT', 587 ); // Optional
+ *     define( 'SMTP_ENCRYPTION', 'tls' ); // Optional, defaults to 'tls' (PHPMailer::ENCRYPTION_STARTTLS)
+ */
 add_action('phpmailer_init', function (PHPMailer $phpmailer) {
     // make sure all configuration constants are given
     if (! defined('SMTP_HOST') || ! defined('SMTP_USER')) {
