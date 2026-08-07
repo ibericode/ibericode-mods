@@ -2,36 +2,22 @@
 
 defined('ABSPATH') or exit;
 
-/**
- * Restricts the WordPress REST API to logged-in users: unauthenticated requests get a 401,
- * and REST discovery links (RSD, `<link rel="https://api.w.org/">`, the `Link` header) are
- * no longer advertised to logged-out visitors. No configuration required.
- */
-
-// Do not allow access to WordPress REST API for logged-out users
+// Do not allow access to WordPress REST API users endpoint for non-logged-in users
 add_filter('rest_authentication_errors', static function ($result) {
     if (is_wp_error($result)) {
         return $result;
     }
 
-    if (is_user_logged_in()) {
-        return $result;
+    $request_path = urldecode(wp_unslash((string) ($_SERVER['REQUEST_URI'] ?? '')));
+    $query_param = wp_unslash((string) ($_GET['rest_route'] ?? ''));
+
+    if (! is_user_logged_in() && (str_contains($request_path, '/wp-json/wp/v2/users') || $query_param === '/wp/v2/users')) {
+        return new WP_Error(
+            'rest_not_logged_in',
+            'You are not currently logged in.',
+            ['status' => 401]
+        );
     }
 
-    return new WP_Error(
-        'rest_not_logged_in',
-        'You are not currently logged in.',
-        ['status' => 401]
-    );
+    return $result;
 });
-
-// Do not advertise REST API for logged-out users
-add_action('init', static function () {
-    if (is_user_logged_in()) {
-        return;
-    }
-
-    remove_action('xmlrpc_rsd_apis', 'rest_output_rsd');
-    remove_action('wp_head', 'rest_output_link_wp_head', 10);
-    remove_action('template_redirect', 'rest_output_link_header', 11);
-}, 10, 0);
