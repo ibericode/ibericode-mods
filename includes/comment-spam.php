@@ -47,8 +47,11 @@ add_filter('pre_comment_approved', static function ($approved, array $commentdat
         // if email looks like "first_last@yahoo.com" and contains an URL, probably spam
         || (strlen($commentdata['comment_author_email']) > 0 && preg_match('/^\w+_\w+@(yahoo|gmail|hotmail)\.com$/', $commentdata['comment_author_email']) && strlen($commentdata['comment_author_url']) > 0)
 
-        // if comment contains a russian character
-        || (function_exists('mb_strpos') && mb_strpos($commentdata['comment_content'], "н") !== false)
+        // if author URL is repeated in the comment
+        || (strlen($commentdata['comment_author_url']) > 0 && str_contains($commentdata['comment_content'], $commentdata['comment_author_url']))
+
+        // if comment contains a russian or vietnamese character
+        || (function_exists('mb_strpos') && (mb_strpos($commentdata['comment_content'], "н") !== false || mb_strpos($commentdata['comment_content'], "ế") !== false))
 
         // if URL is given and does not contain at least one dot
         || (strlen($commentdata['comment_author_url']) > 0 && !str_contains($commentdata['comment_author_url'], '.'))
