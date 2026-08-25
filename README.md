@@ -11,9 +11,8 @@ docblock at the top of the file describing what it does and how to configure it 
 - [`includes/comment-spam.php`](includes/comment-spam.php) — Mark comments as spam through a collection of empirically discovered heuristics.
 - [`includes/login-timing.php`](includes/login-timing.php) — Reject login attempts submitted within 2.5 seconds of the login page loading.
 - [`includes/noindex-archives.php`](includes/noindex-archives.php) — Add `Robots: noindex` to all non-singular pages except the front page.
-- [`includes/rest-api.php`](includes/rest-api.php) — Restrict the WordPress REST API to logged-in users.
+- [`includes/disable-rest-api.php`](includes/disable-rest-api.php) — Restrict the WordPress REST API to logged-in users.
 - [`includes/smtp.php`](includes/smtp.php) — Send `wp_mail()` through SMTP.
-- [`includes/update-notifications.php`](includes/update-notifications.php) — Keep update notifications and automatic updates working when `DISALLOW_FILE_MODS` is set.
 - [`includes/user-enumeration.php`](includes/user-enumeration.php) — Prevent user enumeration via `?author=1`.
 - [`includes/xmlrpc.php`](includes/xmlrpc.php) — Disable XML-RPC.
 - [`includes/yoast-debug-markers.php`](includes/yoast-debug-markers.php) — Remove Yoast SEO's HTML debug comments.

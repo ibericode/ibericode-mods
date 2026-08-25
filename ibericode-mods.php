@@ -28,7 +28,7 @@ $mods = apply_filters('ibericode_mods', [
     'disallow-installing-plugins',
     'login-timing',
     'noindex-archives',
-    'rest-api',
+    'disable-rest-api',
     'smtp',
     'user-enumeration',
     'xmlrpc',
